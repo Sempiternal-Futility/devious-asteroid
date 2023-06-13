@@ -1,16 +1,12 @@
 // THIS SCRIPT HANDLES ALL MOVEMENT
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <time.h>
 #include <ncurses.h>
 #include <stdbool.h>
-
-
-short detect_kill(short *posY, short *posX, short *posYfoe, short *posXfoe); // Detects if the projectile has hit the asteroid(returns 0 if so)
-void move_player(short *posY, short *posX, short *posYfoe, short *posXfoe, short *kills); // Moves the player
-void fall_asteroid(short *posYfoe, short *posXfoe); // Makes the asteroid fall down
-bool detect_kill_asteroid(short *posX, short *posYfoe, short *posXfoe); // Detects if the asteroid hit the player
-short detect_asteroid_bottom(short *posYfoe, short *posXfoe); // Detects if an asteroid fell at the bottom of the screen
+#include "../headers/move.h"
+#include "../headers/sprites.h"
 
 
 void move_player(short *posY, short *posX, short *posYfoe, short *posXfoe, short *kills)
@@ -18,7 +14,7 @@ void move_player(short *posY, short *posX, short *posYfoe, short *posXfoe, short
    char input = getch();
 
 
-   if(input == 'd'  ||  input == 'l'  &&  *posX < COLS -4)
+   if(input == 'd'  ||  input == 'l')
    {
 
       erase_player(posY, posX);
@@ -28,7 +24,7 @@ void move_player(short *posY, short *posX, short *posYfoe, short *posXfoe, short
       
    }
 
-   else if(input == 'a'  ||  input == 'h'  &&  *posX > 1)
+   else if(input == 'a'  ||  input == 'h')
    {
    
       erase_player(posY, posX);
@@ -48,6 +44,17 @@ void move_player(short *posY, short *posX, short *posYfoe, short *posXfoe, short
       exit(0);
    }
 
+	if(*posX == COLS -4)
+	{
+		erase_player(posY, posX);
+		*posX = 2;
+	}
+
+	if(*posX == 1)
+	{
+		erase_player(posY, posX);
+		*posX = COLS -5;
+	}
 }
 
 

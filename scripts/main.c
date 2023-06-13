@@ -4,7 +4,10 @@
 #include <locale.h>
 #include <stdbool.h>
 #include <pthread.h>
+#include "../headers/move.h"
+#include "../headers/sprites.h"
 
+//TODO: PLAYER CAN GO TO THE OTHER SIDE OF THE SCREEN LIKE PACMAN
 
 void player_func(short *param[]); // Handles everything regarding the player
 
@@ -49,13 +52,19 @@ int main()
    short times_fell = 0; // Times an asteroid fell at the bottom of the screen
    while(quit == false  &&  times_fell < 3) // I don't know why, but "&&" works but "||" doesn't :/
    {
-      fall_asteroid(posYfoe, posXfoe, posY);
+      fall_asteroid(posYfoe, posXfoe);
       times_fell += detect_asteroid_bottom(posYfoe, posXfoe); // "detect_asteroid_bottom" returns 1 if an asteroid has fallen
       quit = detect_kill_asteroid(posX, posYfoe, posXfoe);
    }
 
-   pthread_cancel(thread_one); 
-   quit_message();
+   pthread_cancel(thread_one);
+
+	char input;
+	while(input != '\n')
+	{
+		input = getch();
+   	quit_message();
+	}
    endwin();
 
    return 0;
